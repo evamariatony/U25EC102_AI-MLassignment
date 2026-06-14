@@ -1,0 +1,28 @@
+
+EXPLORATORY DATA ANALYSIS (EDA) LEARNING SUMMARY: BENGALURU HOUSING DATASET
+
+
+1. UNDERSTANDING THE DATASET
+------------------------
+Through this exploratory data analysis, I worked on Bengaluru housing data and was able develop a comprehensive understanding on the same. The dataset is a rich mix of continuous numerical measurements (such as 'balcony','bath' and 'price') and multi-level categorical groups (including 'size', 'location' , 'area_type','society', 'total_sqft ' and 'availability'). I determined that the majority of properties listed fall into standard configurations, specifically 2 BHK and 3 BHK layouts, indicating a market deeply geared towards mid-sized households. The target variable, 'price' (denoted in Lakhs), exhibits massive right-skewness, with a heavy concentration of standard housing units under 100-150 Lakhs alongside a long tail of hyper-luxury standalone villas and independent plots. It is also evident that super built up  or built up areas are preferred by the people whereas, plot areas and carpet areas constitute a niche market.There is an observed variation in prices depending on location.While Electronic City exhibits a more affordable and uniform price range,Whitefield shows a large range,offering many luxury options.
+
+2. CHALLENGES FACED DURING ANALYSIS
+-----------------------------------
+The analysis presented several technical obstacles, primarily centered around  data quality and data munging:
+• Environment Discrepancies: A major early hurdle was a ModuleNotFoundError for Seaborn. This occurred because my Jupyter Notebook  was pointing to the base Python environment, while the installation had occurred within a specific Miniconda virtual environment ('myenv'). This required running an explicit path-targeted pip execution within the notebook cells to tie the library directly to the active kernel.
+•Split of 'size' Column:I had observed from the very beginning that the size column was of datatype string and in order to utilize it for important visual plots,I would  have to abstract only the numeric value and in order to do that,I ran a certain code which allowed the creation of a new column named 'bhk',which carried the numeric values.
+• Data Typing Pitfalls: The 'total_sqft' column contained text anomalies, such as ranges ('2100 - 2850') and mixed string objects, causing Python to treat the entire feature as an object/text data type rather than raw numbers. When attempting to build a scatter plot, this text formatting forced Matplotlib to render thousands of discrete string markers, completely compressing the horizontal axis into an unreadable black smudge. I resolved this by applying Pandas' 'pd.to_numeric' wrapper with 'errors=coerce' to remove non-numeric structures allowing proper visibility of all ranges.
+3. MOST USEFUL VISUALIZATIONS
+-----------------------------
+Three specific visualization techniques proved invaluable for dissecting this data:
+• Comparative Dodged Histograms: Using 'sns.histplot' with the parameter 'multiple="dodge"' and a 'shrink' adjustment allowed me to place bedrooms (BHK) and bathrooms side-by-side on a singular horizontal count scale. This avoided stacked overlap and clearly illustrated structural layouts.
+• Targeted Categorical Box Plots: Placing manually filtered high-frequency neighborhoods (such as Whitefield and Electronic City) on the X-axis against 'price' on the Y-axis allowed for an immediate assessment of price variations,ranges and localized real estate distributions across the city.
+• Correlation Heatmaps: Implementing 'sns.heatmap' over a numeric correlation dataframe ('df.corr(numeric_only=True)') compressed dimensional pairs into a clear color-coded grid, utilizing the 'coolwarm' gradient to expose linear dynamics instantly.
+
+4. INSIGHTS DISCOVERED
+----------------------
+• Location vs Price: Location emerged as the main influencer of price changes. Budget areas like Electronic City have tight, predictable price distributions (short boxes on the box plot), while premium zones like Whitefield show a longer vertical range with several high-value outliers, indicating a luxury sub-market.
+• Layout Proportionality: In standard residential buildings, the number of bathrooms generally aligns closely with the number of bedrooms. Properties with more bathrooms than bedrooms form a rare luxury tier, easily identified using boolean flags.
+5. LESSONS LEARNED ABOUT EDA & DATA ANALYSIS
+---------------------------------------------
+This project changed my view on Exploratory Data Analysis. I learned that EDA is not a straightforward task of  producing charts, it's an iterative process that involves engaging with the data. A data scientist cannot just input raw columns into a plotting function; data cleaning and visualization go hand in hand. The data type of a column greatly influences how software presents information,failing to account for this can turn continuous lines into messy categorical text grids. I also learned to view code warnings and errors not just as minor obstacles, but as helpful clues about the data's structure. Managing errors with the right parameters, controlling chart clutter using viewport limits ('plt.xlim'), and selecting the right coordinate canvas based on category versus numeric combinations are vital skills for transforming raw data into organized and usable information.
